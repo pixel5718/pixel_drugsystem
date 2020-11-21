@@ -36,11 +36,6 @@ AddEventHandler('pixel_drugsystemV2:RequestAction', function(currentZone)
     xPlayer.addInventoryItem(ItemToAdd, 1)
 end)
 
-RegisterServerEvent('pixel_drugsystemV2:EndAction')
-AddEventHandler('pixel_drugsystemV2:EndAction', function(currentZone)
-   print("dafuq")
-end)
-
 Zones = {
     ["weed1"] = {
         ["ItemToAdd"] = "weed",
