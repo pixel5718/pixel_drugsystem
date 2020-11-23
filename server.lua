@@ -20,25 +20,33 @@ AddEventHandler('pixel_drugsystemV2:RequestAction', function(currentZone)
         ItemToAdd = Config.Zones[currentZone].ItemToAdd
         ItemToRemove = Config.Zones[currentZone].ItemToRemove
     end
-    if ItemLimit <= xPlayer.getInventoryItem(ItemToAdd).count then
+    if ItemLimit <= xPlayer.getInventoryItem(ItemToAdd.name).count then
         xPlayer.showNotification(Config.Text["ErrorItemLimit"])
         return
     end
     if ItemToRemove ~= nil then
-        if xPlayer.getInventoryItem(ItemToRemove).count > 0 then
-            xPlayer.removeInventoryItem(ItemToRemove, 1)
+        if xPlayer.getInventoryItem(ItemToRemove.name).count >= ItemToRemove.count then
+            xPlayer.removeInventoryItem(ItemToRemove.name, ItemToRemove.count)
         else
             xPlayer.showNotification(Config.Text["ErrorNoItem"])
             return
         end
     end
     TriggerClientEvent('pixel_drugsystemV2:StartAction', source)
-    xPlayer.addInventoryItem(ItemToAdd, 1)
+    xPlayer.addInventoryItem(ItemToAdd.name, ItemToAdd.count)
+end)
+
+RegisterServerEvent('pixel_drugsystemV2:EndAction')
+AddEventHandler('pixel_drugsystemV2:EndAction', function(currentZone)
+   print("dafuq")
 end)
 
 Zones = {
     ["weed1"] = {
-        ["ItemToAdd"] = "weed",
+        ["ItemToAdd"] = {
+            ["name"] = "weed",
+            ["count"] = 1,
+        },
         ["ItemToRemove"] = nil,
         ["ItemLimit"] = 50,
         ["Coords"] = {x = 31.84, y = -1067.76, z = 38.15},
@@ -51,8 +59,14 @@ Zones = {
     },
     
     ["weed2"] = {
-        ["ItemToAdd"] = "weed_pooch",
-        ["ItemToRemove"] = "weed",
+        ["ItemToAdd"] = {
+            ["name"] = "weed_pooch",
+            ["count"] = 1
+        },
+        ["ItemToRemove"] = {
+            ["name"] = "weed",
+            ["count"] = 3
+        },
         ["ItemLimit"] = 50,
         ["Coords"] = {x = 27.61, y = -1079.88, z = 38.15},
         ["Heading"] = 160.29,
@@ -64,7 +78,10 @@ Zones = {
     },
 
     ["coke1"] = {
-        ["ItemToAdd"] = "coke",
+        ["ItemToAdd"] = {
+            ["name"] = "coke",
+            ["count"] = 1
+        },
         ["ItemToRemove"] = nil,
         ["ItemLimit"] = 50,
         ["Coords"] = {x = 27.61, y = -1064.88, z = 38.15},
@@ -77,8 +94,14 @@ Zones = {
     },
 
     ["coke2"] = {
-        ["ItemToAdd"] = "coke_pooch",
-        ["ItemToRemove"] = "coke",
+        ["ItemToAdd"] = {
+            ["name"] = "coke_pooch",
+            ["count"] = 1
+        },
+        ["ItemToRemove"] = {
+            ["name"] = "coke",
+            ["count"] = 3
+        },
         ["ItemLimit"] = 50,
         ["Coords"] = {x = 25.18, y = -1071.49, z = 38.15},
         ["Heading"] = 158.0,
